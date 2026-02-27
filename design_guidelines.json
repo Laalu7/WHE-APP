@@ -1,0 +1,190 @@
+{
+  "project_name": "WHE - Win Help Education",
+  "framework": "React Native (Expo)",
+  "navigation": "expo-router",
+  "styling_approach": "StyleSheet + Constants",
+  "design_philosophy": {
+    "identity": "E1 - Vibrant Play & Academic Trust",
+    "core_principles": [
+      "Clarity First: High contrast for readability.",
+      "Vibrant Accents: Use Amber/Orange for 'Win' moments.",
+      "Trust Foundation: Deep Indigo/Blue for 'Education'.",
+      "Native Feel: Use platform-native navigation patterns.",
+      "Touch Targets: Minimum 44x44px for all interactive elements."
+    ]
+  },
+  "theme": {
+    "colors": {
+      "primary": "#4F46E5",
+      "primary_light": "#818CF8",
+      "primary_dark": "#3730A3",
+      "secondary": "#F59E0B",
+      "secondary_light": "#FBBF24",
+      "background": "#F8FAFC",
+      "surface": "#FFFFFF",
+      "text_primary": "#0F172A",
+      "text_secondary": "#64748B",
+      "text_light": "#94A3B8",
+      "border": "#E2E8F0",
+      "success": "#10B981",
+      "error": "#EF4444",
+      "warning": "#F59E0B",
+      "info": "#3B82F6"
+    },
+    "spacing": {
+      "xs": 4,
+      "s": 8,
+      "m": 12,
+      "l": 16,
+      "xl": 24,
+      "xxl": 32,
+      "xxxl": 48
+    },
+    "borderRadius": {
+      "s": 4,
+      "m": 8,
+      "l": 12,
+      "xl": 16,
+      "full": 9999
+    },
+    "typography": {
+      "fontFamily": {
+        "regular": "System",
+        "medium": "System-Medium",
+        "bold": "System-Bold",
+        "gujarati": "GujaratiFont" 
+      },
+      "sizes": {
+        "xs": 12,
+        "s": 14,
+        "m": 16,
+        "l": 18,
+        "xl": 20,
+        "xxl": 24,
+        "display": 32
+      }
+    },
+    "shadows": {
+      "small": {
+        "shadowColor": "#000",
+        "shadowOffset": { "width": 0, "height": 1 },
+        "shadowOpacity": 0.05,
+        "shadowRadius": 2,
+        "elevation": 2
+      },
+      "medium": {
+        "shadowColor": "#000",
+        "shadowOffset": { "width": 0, "height": 4 },
+        "shadowOpacity": 0.1,
+        "shadowRadius": 6,
+        "elevation": 4
+      }
+    }
+  },
+  "assets": {
+    "images": {
+      "login_hero": "https://images.unsplash.com/photo-1568822617270-2c1579f8dfe2?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDN8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwcmVhZGluZyUyMGJvb2slMjBoYXBweSUyMGxpYnJhcnl8ZW58MHx8fHwxNzcyMTkyMjQxfDA&ixlib=rb-4.1.0&q=85",
+      "card_bg_1": "https://images.unsplash.com/photo-1767473907132-9e52351d023a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwzfHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlcyUyMGVkdWNhdGlvbiUyMGJhY2tncm91bmQlMjBzb2Z0fGVufDB8fHx8MTc3MjE5MjIzMnww&ixlib=rb-4.1.0&q=85",
+      "card_bg_2": "https://images.unsplash.com/photo-1650034501785-1eacf6564f15?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHw0fHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlcyUyMGVkdWNhdGlvbiUyMGJhY2tncm91bmQlMjBzb2Z0fGVufDB8fHx8MTc3MjE5MjIzMnww&ixlib=rb-4.1.0&q=85",
+      "card_bg_3": "https://images.unsplash.com/photo-1767473907132-662a3abce2e5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGdlb21ldHJpYyUyMHNoYXBlcyUyMGVkdWNhdGlvbiUyMGJhY2tncm91bmQlMjBzb2Z0fGVufDB8fHx8MTc3MjE5MjIzMnww&ixlib=rb-4.1.0&q=85",
+      "logo_placeholder": "https://via.placeholder.com/150/4F46E5/FFFFFF?text=WHE"
+    },
+    "icons": {
+      "library": "@expo/vector-icons",
+      "mapping": {
+        "dashboard": "grid-outline (Ionicons)",
+        "subject_jvn": "school-outline (Ionicons)",
+        "subject_cet": "clipboard-outline (Ionicons)",
+        "subject_pse": "medal-outline (Ionicons)",
+        "subject_nmms": "cash-outline (Ionicons)",
+        "subject_gsse": "ribbon-outline (Ionicons)",
+        "subject_tst": "bulb-outline (Ionicons)",
+        "back": "arrow-back (Ionicons)",
+        "pdf": "document-text-outline (Ionicons)",
+        "profile": "person-circle-outline (Ionicons)",
+        "check": "checkmark-circle (Ionicons)",
+        "close": "close-circle (Ionicons)"
+      }
+    }
+  },
+  "components": {
+    "Button": {
+      "description": "Primary action button",
+      "props": {
+        "style": "bg-primary rounded-xl py-3 px-6 shadow-md items-center justify-center active:opacity-80",
+        "textStyle": "text-white font-bold text-lg"
+      },
+      "variants": {
+        "secondary": "bg-white border border-primary text-primary",
+        "outline": "bg-transparent border border-gray-300 text-gray-700"
+      }
+    },
+    "Input": {
+      "description": "Text input field with label",
+      "props": {
+        "containerStyle": "mb-4",
+        "labelStyle": "text-gray-700 font-medium mb-1",
+        "inputStyle": "bg-white border border-gray-300 rounded-lg p-3 text-gray-900 focus:border-primary"
+      }
+    },
+    "Card": {
+      "description": "Content container",
+      "props": {
+        "style": "bg-white rounded-xl p-4 shadow-sm mb-4 border border-gray-100"
+      }
+    },
+    "SubjectCard": {
+      "description": "Dashboard grid item for subjects",
+      "props": {
+        "style": "flex-1 m-2 bg-white rounded-xl p-4 shadow-md aspect-square justify-between items-center border-l-4 border-l-primary",
+        "iconStyle": "mb-2 text-primary",
+        "titleStyle": "text-center font-bold text-gray-800 text-sm"
+      }
+    },
+    "Header": {
+      "description": "Screen header",
+      "props": {
+        "style": "bg-white px-4 py-3 flex-row items-center border-b border-gray-100 elevation-2 shadow-sm",
+        "titleStyle": "flex-1 text-center font-bold text-lg text-gray-900"
+      }
+    }
+  },
+  "screens": {
+    "Login": {
+      "layout": "Safe area view -> KeyboardAvoidingView -> ScrollView. Hero Image (30% height) with gradient overlay. Logo centered. Form container (white, rounded-t-3xl, -mt-8, p-6) containing Email, Password, Login Button.",
+      "background": "Primary Color or Gradient"
+    },
+    "Dashboard": {
+      "layout": "Header (WHE Logo + Profile Icon). ScrollView. Welcome Text ('Hello Student!'). Grid View (FlatList numColumns=2) of Subjects.",
+      "item_render": "SubjectCard with distinct icon and color accent."
+    },
+    "SubjectDetail": {
+      "layout": "Header (Back + Title). Hero Section (Exam Info). 'Sections' List (Mental Ability, Math, Gujarati).",
+      "section_item": "Card row with icon, title, and 'Start Practice' button."
+    },
+    "QuestionPaper": {
+      "layout": "Header (Timer + Question Number). Question Text (Large, Scrollable). Options List (A, B, C, D). Bottom Bar (Prev, Next, Submit).",
+      "option_style": "Bordered container. Selected state: Primary bg + White text. Correct: Green. Wrong: Red."
+    },
+    "PDFExport": {
+      "layout": "Modal or Screen. Preview of paper. 'Generate PDF' floating action button."
+    }
+  },
+  "instructions_to_main_agent": [
+    "1. DEPENDENCIES: Ensure 'expo-router', '@react-navigation/native', 'expo-image', 'expo-linear-gradient' are installed.",
+    "2. NAVIGATION: Use 'app/(tabs)' for main flow if applicable, or Stack for drill-down.",
+    "3. FONTS: Load custom Gujarati fonts in '_layout.js' using 'useFonts'. Fallback to System font if loading fails.",
+    "4. ICONS: Use '@expo/vector-icons/Ionicons' for consistency.",
+    "5. MOCK DATA: Create a 'data/mock.js' file for subjects and questions since backend might not be ready.",
+    "6. STYLING: Create a 'constants/Theme.js' to export colors and common styles. Use 'StyleSheet.create' for performance.",
+    "7. ACCESSIBILITY: Add 'accessibilityLabel' to all buttons and inputs.",
+    "8. TESTING: Add 'testID' props to all interactive elements for testing."
+  ],
+  "universal_guidelines": {
+    "touch_targets": "Ensure all touchable areas are at least 44x44 points.",
+    "text_contrast": "Ensure text contrast ratio is at least 4.5:1 against background.",
+    "loading_states": "Show ActivityIndicator when fetching data.",
+    "error_states": "Show user-friendly error messages (e.g., 'No internet connection').",
+    "gujarati_text": "Ensure Gujarati text has sufficient line height (approx 1.5x font size) for readability."
+  }
+}

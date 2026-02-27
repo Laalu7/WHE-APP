@@ -4,12 +4,13 @@
 Education exam preparation mobile app for Gujarati medium students preparing for competitive exams (JVN, CET, PSE, NMMS, GSSE, TST).
 
 ## Features
-- **Login**: Simple admin login (admin/Admin@123)
-- **Dashboard**: 6 exam subject cards with color-coded icons
-- **Subject Detail**: Exam info with 3 sections (Mental Ability, Math, Gujarati)
-- **Question Practice**: MCQ viewer with 12 JVN questions from Excel data, rendered in custom Gujarati BGOT font
-- **PDF Export**: Generate and download question papers as PDF with embedded custom fonts
-- **Gujarati Support**: Custom Gujarati fonts (BGOT, GOENG) for proper text rendering
+- **Login**: Simple admin login (admin/Admin@123) - Responsive for all devices
+- **Dashboard**: 6 exam subject cards in **2x2 grid layout** with color-coded icons
+- **Subject Detail**: Exam info with 3 sections (Mental Ability, Math, Gujarati) - Responsive
+- **Question Practice**: MCQ viewer with 12 JVN questions, **select questions for PDF export**
+- **PDF Export**: Generate PDF with only **selected questions** or all questions, with embedded custom Gujarati fonts
+- **Gujarati Support**: Custom Gujarati fonts (BGOT, GOENG)
+- **Responsive**: All screens adapt to mobile, tablet, and larger devices
 
 ## Tech Stack
 - **Frontend**: React Native (Expo SDK 54), expo-router

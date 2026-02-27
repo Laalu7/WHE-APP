@@ -8,10 +8,10 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
-    'BGOT': require('../assets/fonts/BGOT___.TTF'),
-    'BGOTB': require('../assets/fonts/BGOTB__.TTF'),
-    'GOENG': require('../assets/fonts/GOENG__.TTF'),
-    'GOENGB': require('../assets/fonts/GOENGB_.TTF'),
+    'BGOT': require('../assets/fonts/BGOT.ttf'),
+    'BGOTB': require('../assets/fonts/BGOTB.ttf'),
+    'GOENG': require('../assets/fonts/GOENG.ttf'),
+    'GOENGB': require('../assets/fonts/GOENGB.ttf'),
   });
 
   useEffect(() => {

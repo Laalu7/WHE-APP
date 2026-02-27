@@ -58,7 +58,8 @@ export default function QuestionsScreen() {
 
   const fetchQuestions = async () => {
     try {
-      const res = await fetch(`${BACKEND_URL}/api/questions/${params.subjectCode}`);
+      const sectionParam = params.sectionId ? `?section=${params.sectionId}` : '';
+      const res = await fetch(`${BACKEND_URL}/api/questions/${params.subjectCode}${sectionParam}`);
       const data = await res.json();
       setQuestions(data);
     } catch (e) {

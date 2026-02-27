@@ -304,6 +304,7 @@ const styles = StyleSheet.create({
   backBtnAbs: { position: 'absolute', top: Spacing.l, left: Spacing.l, width: 44, height: 44, borderRadius: 22, justifyContent: 'center', alignItems: 'center' },
   emptyTitle: { fontSize: FontSizes.xl, fontWeight: '700', color: Colors.textPrimary, marginTop: Spacing.l },
   emptySubtext: { fontSize: FontSizes.m, color: Colors.textSecondary, marginTop: Spacing.s, textAlign: 'center' },
+  emptySubtext2: { fontSize: FontSizes.s, color: Colors.textLight, marginTop: Spacing.xs, textAlign: 'center' },
   topBar: { flexDirection: 'row', alignItems: 'center', paddingVertical: Spacing.m, paddingHorizontal: Spacing.l },
   topBackBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(255,255,255,0.2)', justifyContent: 'center', alignItems: 'center' },
   topBarCenter: { flex: 1, marginLeft: Spacing.m },

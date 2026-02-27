@@ -261,6 +261,13 @@ async def get_questions(subject_code: str):
     ).to_list(1000)
     return questions
 
+@api_router.get("/generate-pdf/{subject_code}")
+async def generate_pdf_get(subject_code: str, selected_ids: str = "", title: str = "Question Paper"):
+    """Generate PDF via GET for mobile browser compatibility"""
+    selected_list = [s.strip() for s in selected_ids.split(",") if s.strip()] if selected_ids else None
+    req = PDFRequest(subject_code=subject_code, title=title, selected_question_ids=selected_list)
+    return await generate_pdf(req)
+
 @api_router.post("/generate-pdf")
 async def generate_pdf(req: PDFRequest):
     """Generate PDF from questions"""

@@ -256,9 +256,12 @@ async def get_subject(subject_id: str):
     raise HTTPException(status_code=404, detail="Subject not found")
 
 @api_router.get("/questions/{subject_code}")
-async def get_questions(subject_code: str):
+async def get_questions(subject_code: str, section: str = ""):
+    query = {"subject": subject_code.upper()}
+    if section:
+        query["section"] = section
     questions = await db.questions.find(
-        {"subject": subject_code.upper()},
+        query,
         {"_id": 0}
     ).to_list(1000)
     return questions

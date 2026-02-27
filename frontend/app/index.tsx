@@ -8,25 +8,31 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
-  Alert,
   Keyboard,
-  TouchableWithoutFeedback,
-  Dimensions,
+  ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Spacing, BorderRadius, FontSizes } from '../constants/Theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const { width, height } = Dimensions.get('window');
 const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
 
 export default function LoginScreen() {
   const router = useRouter();
+  const { width, height } = useWindowDimensions();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const isTablet = width >= 768;
+  const formMaxWidth = isTablet ? 420 : width;
+  const topHeight = Math.min(height * 0.32, 280);
+  const logoSize = isTablet ? 80 : Math.min(70, width * 0.18);
+  const titleSize = isTablet ? 38 : Math.min(36, width * 0.09);
 
   const handleLogin = async () => {
     Keyboard.dismiss();
@@ -59,105 +65,112 @@ export default function LoginScreen() {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        {/* Top decorative section */}
-        <View style={styles.topSection}>
-          <View style={styles.circleDecor1} />
-          <View style={styles.circleDecor2} />
-          <View style={styles.circleDecor3} />
-          <View style={styles.logoContainer}>
-            <View style={styles.logoCircle}>
-              <Ionicons name="school" size={48} color={Colors.surface} />
-            </View>
-            <Text style={styles.appTitle}>WHE</Text>
-            <Text style={styles.appSubtitle}>Win Help Education</Text>
-          </View>
-        </View>
-
-        {/* Login form */}
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.formSection}
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={styles.flex1}
+      >
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          bounces={false}
+          showsVerticalScrollIndicator={false}
         >
-          <View style={styles.formCard}>
-            <Text style={styles.welcomeText}>Welcome Back!</Text>
-            <Text style={styles.loginSubtext}>Sign in to continue learning</Text>
-
-            {error ? (
-              <View style={styles.errorBox} testID="login-error">
-                <Ionicons name="alert-circle" size={18} color={Colors.error} />
-                <Text style={styles.errorText}>{error}</Text>
+          {/* Top decorative section */}
+          <View style={[styles.topSection, { height: topHeight }]}>
+            <View style={styles.circleDecor1} />
+            <View style={styles.circleDecor2} />
+            <View style={styles.circleDecor3} />
+            <View style={styles.logoContainer}>
+              <View style={[styles.logoCircle, { width: logoSize, height: logoSize, borderRadius: logoSize / 2 }]}>
+                <Ionicons name="school" size={logoSize * 0.5} color={Colors.surface} />
               </View>
-            ) : null}
-
-            <View style={styles.inputContainer}>
-              <View style={styles.inputIconBox}>
-                <Ionicons name="person-outline" size={20} color={Colors.primaryLight} />
-              </View>
-              <TextInput
-                testID="username-input"
-                style={styles.input}
-                placeholder="Username"
-                placeholderTextColor={Colors.textLight}
-                value={username}
-                onChangeText={setUsername}
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-            </View>
-
-            <View style={styles.inputContainer}>
-              <View style={styles.inputIconBox}>
-                <Ionicons name="lock-closed-outline" size={20} color={Colors.primaryLight} />
-              </View>
-              <TextInput
-                testID="password-input"
-                style={styles.input}
-                placeholder="Password"
-                placeholderTextColor={Colors.textLight}
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={!showPassword}
-                autoCapitalize="none"
-              />
-              <TouchableOpacity
-                testID="toggle-password-btn"
-                onPress={() => setShowPassword(!showPassword)}
-                style={styles.eyeBtn}
-              >
-                <Ionicons
-                  name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-                  size={22}
-                  color={Colors.textLight}
-                />
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity
-              testID="login-btn"
-              style={[styles.loginBtn, loading && styles.loginBtnDisabled]}
-              onPress={handleLogin}
-              disabled={loading}
-              activeOpacity={0.8}
-            >
-              {loading ? (
-                <ActivityIndicator color={Colors.surface} size="small" />
-              ) : (
-                <Text style={styles.loginBtnText}>Login</Text>
-              )}
-            </TouchableOpacity>
-
-            <View style={styles.footerInfo}>
-              <Ionicons name="information-circle-outline" size={16} color={Colors.textLight} />
-              <Text style={styles.footerText}>
-                Exam preparation for JVN, CET, PSE, NMMS, GSSE, TST
-              </Text>
+              <Text style={[styles.appTitle, { fontSize: titleSize }]}>WHE</Text>
+              <Text style={styles.appSubtitle}>Win Help Education</Text>
             </View>
           </View>
-        </KeyboardAvoidingView>
-      </View>
-    </TouchableWithoutFeedback>
+
+          {/* Login form */}
+          <View style={styles.formCard}>
+            <View style={[styles.formInner, { maxWidth: formMaxWidth }]}>
+              <Text style={styles.welcomeText}>Welcome Back!</Text>
+              <Text style={styles.loginSubtext}>Sign in to continue learning</Text>
+
+              {error ? (
+                <View style={styles.errorBox} testID="login-error">
+                  <Ionicons name="alert-circle" size={18} color={Colors.error} />
+                  <Text style={styles.errorText}>{error}</Text>
+                </View>
+              ) : null}
+
+              <View style={styles.inputContainer}>
+                <View style={styles.inputIconBox}>
+                  <Ionicons name="person-outline" size={20} color={Colors.primaryLight} />
+                </View>
+                <TextInput
+                  testID="username-input"
+                  style={styles.input}
+                  placeholder="Username"
+                  placeholderTextColor={Colors.textLight}
+                  value={username}
+                  onChangeText={setUsername}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <View style={styles.inputIconBox}>
+                  <Ionicons name="lock-closed-outline" size={20} color={Colors.primaryLight} />
+                </View>
+                <TextInput
+                  testID="password-input"
+                  style={styles.input}
+                  placeholder="Password"
+                  placeholderTextColor={Colors.textLight}
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={!showPassword}
+                  autoCapitalize="none"
+                />
+                <TouchableOpacity
+                  testID="toggle-password-btn"
+                  onPress={() => setShowPassword(!showPassword)}
+                  style={styles.eyeBtn}
+                >
+                  <Ionicons
+                    name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                    size={22}
+                    color={Colors.textLight}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <TouchableOpacity
+                testID="login-btn"
+                style={[styles.loginBtn, loading && styles.loginBtnDisabled]}
+                onPress={handleLogin}
+                disabled={loading}
+                activeOpacity={0.8}
+              >
+                {loading ? (
+                  <ActivityIndicator color={Colors.surface} size="small" />
+                ) : (
+                  <Text style={styles.loginBtnText}>Login</Text>
+                )}
+              </TouchableOpacity>
+
+              <View style={styles.footerInfo}>
+                <Ionicons name="information-circle-outline" size={16} color={Colors.textLight} />
+                <Text style={styles.footerText}>
+                  Exam preparation for JVN, CET, PSE, NMMS, GSSE, TST
+                </Text>
+              </View>
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
@@ -166,8 +179,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.primary,
   },
+  flex1: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+  },
   topSection: {
-    height: height * 0.38,
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
@@ -203,30 +221,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logoCircle: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
     backgroundColor: 'rgba(255,255,255,0.2)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: Spacing.l,
+    marginBottom: Spacing.m,
     borderWidth: 2,
     borderColor: 'rgba(255,255,255,0.3)',
   },
   appTitle: {
-    fontSize: 40,
     fontWeight: '800',
     color: Colors.surface,
     letterSpacing: 4,
   },
   appSubtitle: {
-    fontSize: FontSizes.m,
+    fontSize: FontSizes.s,
     color: 'rgba(255,255,255,0.8)',
     marginTop: Spacing.xs,
     letterSpacing: 1,
-  },
-  formSection: {
-    flex: 1,
   },
   formCard: {
     flex: 1,
@@ -235,6 +246,11 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 32,
     paddingHorizontal: Spacing.xl,
     paddingTop: Spacing.xxl,
+    paddingBottom: Spacing.xxl,
+    alignItems: 'center',
+  },
+  formInner: {
+    width: '100%',
   },
   welcomeText: {
     fontSize: FontSizes.xxl,

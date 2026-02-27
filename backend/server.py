@@ -221,7 +221,8 @@ def parse_excel_questions():
                 "question_number": current_q["number"],
                 "question_text": current_q["text"],
                 "options": current_options,
-                "subject": "JVN"
+                "subject": "JVN",
+                "section": "mental"
             })
 
         logger.info(f"Parsed {len(questions)} questions from Excel")

@@ -5,10 +5,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  SafeAreaView,
+  useWindowDimensions,
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors, Spacing, BorderRadius, FontSizes, SubjectColors } from '../../constants/Theme';
 
 const SECTIONS = [
@@ -16,7 +17,7 @@ const SECTIONS = [
     id: 'mental',
     name_gu: 'માનસિક ક્ષમતા પરીક્ષા',
     name_en: 'Mental Ability Test',
-    icon: 'brain-outline' as const,
+    icon: 'bulb-outline' as const,
     description: 'Test your logical reasoning and problem-solving skills',
   },
   {
@@ -37,6 +38,7 @@ const SECTIONS = [
 
 export default function SubjectScreen() {
   const router = useRouter();
+  const { width } = useWindowDimensions();
   const params = useLocalSearchParams<{
     id: string;
     code: string;
@@ -48,6 +50,8 @@ export default function SubjectScreen() {
 
   const colorSet = SubjectColors[params.code || 'JVN'] || SubjectColors.JVN;
   const hasQuestions = params.has_questions === 'true';
+  const isTablet = width >= 768;
+  const contentMaxWidth = isTablet ? 600 : width;
 
   const handleStartPractice = () => {
     router.push({
@@ -72,15 +76,11 @@ export default function SubjectScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.container}>
         {/* Header */}
         <View style={[styles.heroSection, { backgroundColor: colorSet.accent }]}>
-          <TouchableOpacity
-            testID="back-btn"
-            onPress={() => router.back()}
-            style={styles.backBtn}
-          >
+          <TouchableOpacity testID="back-btn" onPress={() => router.back()} style={styles.backBtn}>
             <Ionicons name="arrow-back" size={24} color={Colors.surface} />
           </TouchableOpacity>
 
@@ -88,7 +88,7 @@ export default function SubjectScreen() {
             <View style={styles.heroIconCircle}>
               <Ionicons
                 name={(SubjectColors[params.code || 'JVN']?.icon || 'book-outline') as any}
-                size={32}
+                size={28}
                 color={colorSet.accent}
               />
             </View>
@@ -97,9 +97,7 @@ export default function SubjectScreen() {
             <Text style={styles.heroNameGu}>{params.name_gu}</Text>
             <View style={styles.heroStats}>
               <View style={styles.heroStatItem}>
-                <Text style={styles.heroStatNumber}>
-                  {params.total_questions || '40'}
-                </Text>
+                <Text style={styles.heroStatNumber}>{params.total_questions || '40'}</Text>
                 <Text style={styles.heroStatLabel}>કુલ પ્રશ્નો</Text>
               </View>
               <View style={styles.heroStatDivider} />
@@ -114,25 +112,20 @@ export default function SubjectScreen() {
         {/* Sections */}
         <ScrollView
           style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={[styles.scrollContent, { maxWidth: contentMaxWidth, alignSelf: 'center', width: '100%' }]}
           showsVerticalScrollIndicator={false}
         >
           <Text style={styles.sectionTitle}>પરીક્ષાના વિભાગો (Exam Sections)</Text>
 
           {SECTIONS.map((section, index) => (
-            <View
-              key={section.id}
-              testID={`section-card-${section.id}`}
-              style={styles.sectionCard}
-            >
+            <View key={section.id} testID={`section-card-${section.id}`} style={styles.sectionCard}>
               <View style={[styles.sectionIconCircle, { backgroundColor: colorSet.bg }]}>
-                <Ionicons name={section.icon as any} size={24} color={colorSet.accent} />
+                <Ionicons name={section.icon as any} size={22} color={colorSet.accent} />
               </View>
               <View style={styles.sectionInfo}>
                 <Text style={styles.sectionNumber}>વિભાગ {index + 1}</Text>
                 <Text style={styles.sectionNameGu}>{section.name_gu}</Text>
                 <Text style={styles.sectionNameEn}>{section.name_en}</Text>
-                <Text style={styles.sectionDesc}>{section.description}</Text>
               </View>
             </View>
           ))}
@@ -180,204 +173,75 @@ export default function SubjectScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-  container: {
-    flex: 1,
-  },
+  safeArea: { flex: 1, backgroundColor: Colors.background },
+  container: { flex: 1 },
   heroSection: {
-    paddingTop: Spacing.xl,
-    paddingBottom: Spacing.xxl,
-    paddingHorizontal: Spacing.xl,
-    borderBottomLeftRadius: 28,
-    borderBottomRightRadius: 28,
+    paddingTop: Spacing.l,
+    paddingBottom: Spacing.xl,
+    paddingHorizontal: Spacing.l,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
   backBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 44, height: 44, borderRadius: 22,
     backgroundColor: 'rgba(255,255,255,0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: Spacing.l,
+    justifyContent: 'center', alignItems: 'center',
+    marginBottom: Spacing.m,
   },
-  heroContent: {
-    alignItems: 'center',
-  },
+  heroContent: { alignItems: 'center' },
   heroIconCircle: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: 56, height: 56, borderRadius: 28,
     backgroundColor: Colors.surface,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: Spacing.m,
+    justifyContent: 'center', alignItems: 'center',
+    marginBottom: Spacing.s,
   },
-  heroCode: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: Colors.surface,
-    letterSpacing: 3,
-  },
-  heroNameEn: {
-    fontSize: FontSizes.m,
-    color: 'rgba(255,255,255,0.9)',
-    marginTop: Spacing.xs,
-    textAlign: 'center',
-  },
-  heroNameGu: {
-    fontSize: FontSizes.s,
-    color: 'rgba(255,255,255,0.7)',
-    marginTop: Spacing.xs,
-    textAlign: 'center',
-  },
+  heroCode: { fontSize: 26, fontWeight: '800', color: Colors.surface, letterSpacing: 3 },
+  heroNameEn: { fontSize: FontSizes.s, color: 'rgba(255,255,255,0.9)', marginTop: Spacing.xs, textAlign: 'center' },
+  heroNameGu: { fontSize: FontSizes.xs, color: 'rgba(255,255,255,0.7)', marginTop: 2, textAlign: 'center' },
   heroStats: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: Spacing.l,
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    borderRadius: BorderRadius.xl,
-    paddingVertical: Spacing.m,
-    paddingHorizontal: Spacing.xl,
+    flexDirection: 'row', alignItems: 'center', marginTop: Spacing.m,
+    backgroundColor: 'rgba(255,255,255,0.15)', borderRadius: BorderRadius.xl,
+    paddingVertical: Spacing.s, paddingHorizontal: Spacing.xl,
   },
-  heroStatItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  heroStatNumber: {
-    fontSize: FontSizes.xxl,
-    fontWeight: '800',
-    color: Colors.surface,
-  },
-  heroStatLabel: {
-    fontSize: FontSizes.xs,
-    color: 'rgba(255,255,255,0.8)',
-    marginTop: 2,
-  },
-  heroStatDivider: {
-    width: 1,
-    height: 30,
-    backgroundColor: 'rgba(255,255,255,0.3)',
-    marginHorizontal: Spacing.l,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: Spacing.xl,
-    paddingBottom: Spacing.xxxl,
-  },
-  sectionTitle: {
-    fontSize: FontSizes.l,
-    fontWeight: '600',
-    color: Colors.textPrimary,
-    marginBottom: Spacing.l,
-  },
+  heroStatItem: { alignItems: 'center', flex: 1 },
+  heroStatNumber: { fontSize: FontSizes.xl, fontWeight: '800', color: Colors.surface },
+  heroStatLabel: { fontSize: 10, color: 'rgba(255,255,255,0.8)', marginTop: 1 },
+  heroStatDivider: { width: 1, height: 28, backgroundColor: 'rgba(255,255,255,0.3)', marginHorizontal: Spacing.l },
+  scrollView: { flex: 1 },
+  scrollContent: { padding: Spacing.l, paddingBottom: Spacing.xxxl },
+  sectionTitle: { fontSize: FontSizes.m, fontWeight: '600', color: Colors.textPrimary, marginBottom: Spacing.m },
   sectionCard: {
-    flexDirection: 'row',
-    backgroundColor: Colors.surface,
-    borderRadius: BorderRadius.xl,
-    padding: Spacing.l,
-    marginBottom: Spacing.m,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
+    flexDirection: 'row', backgroundColor: Colors.surface,
+    borderRadius: BorderRadius.xl, padding: Spacing.l, marginBottom: Spacing.m,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05, shadowRadius: 4, elevation: 2,
   },
   sectionIconCircle: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: Spacing.l,
+    width: 44, height: 44, borderRadius: 22,
+    justifyContent: 'center', alignItems: 'center', marginRight: Spacing.m,
   },
-  sectionInfo: {
-    flex: 1,
-  },
-  sectionNumber: {
-    fontSize: FontSizes.xs,
-    fontWeight: '600',
-    color: Colors.textLight,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: 2,
-  },
-  sectionNameGu: {
-    fontSize: FontSizes.m,
-    fontWeight: '600',
-    color: Colors.textPrimary,
-    marginBottom: 2,
-  },
-  sectionNameEn: {
-    fontSize: FontSizes.s,
-    color: Colors.textSecondary,
-    marginBottom: Spacing.xs,
-  },
-  sectionDesc: {
-    fontSize: FontSizes.xs,
-    color: Colors.textLight,
-    lineHeight: 18,
-  },
-  actionSection: {
-    marginTop: Spacing.xl,
-  },
+  sectionInfo: { flex: 1 },
+  sectionNumber: { fontSize: 10, fontWeight: '600', color: Colors.textLight, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 2 },
+  sectionNameGu: { fontSize: FontSizes.m, fontWeight: '600', color: Colors.textPrimary, marginBottom: 2 },
+  sectionNameEn: { fontSize: FontSizes.s, color: Colors.textSecondary },
+  actionSection: { marginTop: Spacing.l },
   primaryBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: BorderRadius.xl,
-    paddingVertical: Spacing.l,
-    marginBottom: Spacing.m,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 5,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    borderRadius: BorderRadius.xl, paddingVertical: Spacing.l, marginBottom: Spacing.m,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2, shadowRadius: 8, elevation: 5,
   },
-  primaryBtnText: {
-    color: Colors.surface,
-    fontSize: FontSizes.l,
-    fontWeight: '700',
-    marginLeft: Spacing.s,
-  },
+  primaryBtnText: { color: Colors.surface, fontSize: FontSizes.l, fontWeight: '700', marginLeft: Spacing.s },
   secondaryBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: BorderRadius.xl,
-    paddingVertical: Spacing.l,
-    backgroundColor: Colors.surface,
-    borderWidth: 1.5,
-    borderColor: Colors.border,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    borderRadius: BorderRadius.xl, paddingVertical: Spacing.l,
+    backgroundColor: Colors.surface, borderWidth: 1.5, borderColor: Colors.border,
   },
-  secondaryBtnText: {
-    fontSize: FontSizes.m,
-    fontWeight: '600',
-    marginLeft: Spacing.s,
-  },
+  secondaryBtnText: { fontSize: FontSizes.m, fontWeight: '600', marginLeft: Spacing.s },
   comingSoonBox: {
-    alignItems: 'center',
-    padding: Spacing.xxl,
-    backgroundColor: Colors.surface,
-    borderRadius: BorderRadius.xl,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    borderStyle: 'dashed',
+    alignItems: 'center', padding: Spacing.xxl, backgroundColor: Colors.surface,
+    borderRadius: BorderRadius.xl, borderWidth: 1, borderColor: Colors.border, borderStyle: 'dashed',
   },
-  comingSoonTitle: {
-    fontSize: FontSizes.l,
-    fontWeight: '700',
-    color: Colors.textPrimary,
-    marginTop: Spacing.m,
-  },
-  comingSoonText: {
-    fontSize: FontSizes.s,
-    color: Colors.textSecondary,
-    textAlign: 'center',
-    marginTop: Spacing.s,
-  },
+  comingSoonTitle: { fontSize: FontSizes.l, fontWeight: '700', color: Colors.textPrimary, marginTop: Spacing.m },
+  comingSoonText: { fontSize: FontSizes.s, color: Colors.textSecondary, textAlign: 'center', marginTop: Spacing.s },
 });

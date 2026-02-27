@@ -150,13 +150,26 @@ export default function QuestionsScreen() {
   if (questions.length === 0) {
     return (
       <SafeAreaView style={styles.safeArea} edges={['top']}>
-        <View style={styles.emptyContainer}>
-          <TouchableOpacity testID="back-btn-empty" onPress={() => router.back()} style={[styles.backBtnAbs, { backgroundColor: colorSet.bg }]}>
-            <Ionicons name="arrow-back" size={24} color={colorSet.accent} />
-          </TouchableOpacity>
-          <Ionicons name="document-text-outline" size={64} color={Colors.textLight} />
-          <Text style={styles.emptyTitle}>No Questions Available</Text>
-          <Text style={styles.emptySubtext}>Questions for {params.subjectCode} will be added soon.</Text>
+        <View style={styles.container}>
+          <View style={[styles.topBar, { backgroundColor: colorSet.accent }]}>
+            <TouchableOpacity testID="back-btn-empty" onPress={() => router.back()} style={styles.topBackBtn}>
+              <Ionicons name="arrow-back" size={20} color={Colors.surface} />
+            </TouchableOpacity>
+            <View style={styles.topBarCenter}>
+              <Text style={styles.topBarTitle}>{params.sectionName || params.subjectCode}</Text>
+              <Text style={styles.topBarSub}>{params.sectionNameGu || params.subjectNameGu}</Text>
+            </View>
+          </View>
+          <View style={styles.emptyContainer}>
+            <Ionicons name="time-outline" size={64} color={Colors.textLight} />
+            <Text style={styles.emptyTitle}>Coming Soon!</Text>
+            <Text style={styles.emptySubtext}>
+              {params.sectionName || params.subjectCode} ના પ્રશ્નો ટૂંક સમયમાં ઉપલબ્ધ થશે.
+            </Text>
+            <Text style={styles.emptySubtext2}>
+              Questions for {params.sectionName || params.subjectCode} will be available soon.
+            </Text>
+          </View>
         </View>
       </SafeAreaView>
     );

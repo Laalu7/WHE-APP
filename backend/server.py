@@ -290,6 +290,11 @@ async def generate_pdf(req: PDFRequest):
             {"_id": 0}
         ).to_list(1000)
 
+        # Filter by selected question IDs if provided
+        if req.selected_question_ids and len(req.selected_question_ids) > 0:
+            selected_set = set(req.selected_question_ids)
+            questions = [q for q in questions if q.get("id") in selected_set]
+
         if not questions:
             raise HTTPException(status_code=404, detail="No questions found for this subject")
 

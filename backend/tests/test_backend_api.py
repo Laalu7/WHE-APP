@@ -210,3 +210,45 @@ class TestPDFGeneration:
             json={"title": "Test"}
         )
         assert response.status_code == 422, f"Expected 422, got {response.status_code}"
+
+    def test_generate_pdf_with_selected_questions(self, api_client, base_url):
+        """Test POST /api/generate-pdf with selected_question_ids filters correctly"""
+        # First, get all questions to get valid question IDs
+        questions_response = api_client.get(f"{base_url}/api/questions/JVN")
+        assert questions_response.status_code == 200
+        questions = questions_response.json()
+        assert len(questions) > 2, "Need at least 3 questions for this test"
+        
+        # Select first 2 questions
+        selected_ids = [questions[0]["id"], questions[1]["id"]]
+        
+        # Generate PDF with only selected questions
+        response = api_client.post(
+            f"{base_url}/api/generate-pdf",
+            json={
+                "subject_code": "JVN",
+                "title": "JVN Selected Questions",
+                "selected_question_ids": selected_ids
+            }
+        )
+        assert response.status_code == 200, f"Expected 200, got {response.status_code}"
+        
+        # Verify response is PDF
+        assert response.headers["Content-Type"] == "application/pdf"
+        assert len(response.content) > 0, "PDF should have content"
+        assert response.content[:4] == b'%PDF', "Response should be valid PDF"
+        
+        print(f"✓ PDF with {len(selected_ids)} selected questions generated successfully")
+        
+    def test_generate_pdf_with_empty_selected_list(self, api_client, base_url):
+        """Test POST /api/generate-pdf with empty selected_question_ids list"""
+        response = api_client.post(
+            f"{base_url}/api/generate-pdf",
+            json={
+                "subject_code": "JVN",
+                "title": "JVN Test",
+                "selected_question_ids": []
+            }
+        )
+        # Should return all questions when empty list provided
+        assert response.status_code == 200, f"Expected 200, got {response.status_code}"

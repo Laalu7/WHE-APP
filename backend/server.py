@@ -66,6 +66,7 @@ class Subject(BaseModel):
 class PDFRequest(BaseModel):
     subject_code: str
     title: Optional[str] = "Question Paper"
+    selected_question_ids: Optional[List[str]] = None
 
 # ========== Data ==========
 SUBJECTS_DATA = [
